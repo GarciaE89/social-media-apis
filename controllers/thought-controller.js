@@ -1,11 +1,11 @@
-const { Usser, Thought } = require('../models');
+const { Usser, Thought, User } = require('../models');
 
 const thoughtControllers = {
         // use get for all thoughts
         getAllThoughts(req, res) {
             Thought.find({})
                 .populate({
-                    path: 'users',
+                    path: 'user',
                     select: '-__v'
                 })
                 .select('-__v')
@@ -16,7 +16,7 @@ const thoughtControllers = {
                     res.status(400).json(err);
                 });
         },
-    
+        //  get a single thought by id 
         getSingleThought({ params }, res) {
             Thought.findOne({ _id: params.thoughtId })
                 .select('-__v')
@@ -34,7 +34,29 @@ const thoughtControllers = {
                 });
 
         },
+
+        // add thought to specific user
+        addthought({params, body}, res) {
+        Thought.create(body)
+        .then(({ _id }) => {
+        return User.FindOneAndUpdate (
+          {_id: params.userId},
+          {$addToSet : {thoughts: _id}},
+          {new: true}  
+        );    
+        })
+        .then(dbThoughtsData => {
+         if(!dbThoughtsData){
+             res.status(404).json({message: 'No user located with provided Id!'});
+             return;
+         }    
+         res.json(dbThoughtsData);
+        })
+        .catch(err => res.json(err));
+        },
+
         
+
 
 
 

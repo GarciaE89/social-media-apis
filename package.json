@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/GarciaE89/social-media-apis/issues"
   },
-  "homepage": "https://github.com/GarciaE89/social-media-apis#readme"
+  "homepage": "https://github.com/GarciaE89/social-media-apis#readme",
+  "dependencies": {
+    "mongoose": "^6.0.14"
+  }
 }
