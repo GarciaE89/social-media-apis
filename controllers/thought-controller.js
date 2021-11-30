@@ -36,7 +36,7 @@ const thoughtControllers = {
         },
 
         // add thought to specific user
-        addthought({params, body}, res) {
+        addThought({params, body}, res) {
         Thought.create(body)
         .then(({ _id }) => {
         return User.FindOneAndUpdate (
@@ -53,9 +53,29 @@ const thoughtControllers = {
          res.json(dbThoughtsData);
         })
         .catch(err => res.json(err));
+
+
+        },
+
+        updateThought ({params, body }, res) {
+            Thought.findOneAndUpdate (
+            { _id: params.thoughtId},
+            body,
+            {new: true, runValidators: true}    
+            )
+            .then(dbThoughtsData => {
+                if(!dbThoughtsData){
+                    res.status(404).json({message: 'No thought located with provided Id!'})
+                    return;
+                }
+                res.json(dbThoughtsData);
+            })
+            .catch(err => res.json(err));
         },
 
         
+
+
 
 
 
