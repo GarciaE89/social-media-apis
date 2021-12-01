@@ -102,13 +102,38 @@ const thoughtControllers = {
               { $addToSet: { reactions: body } },
               { new: true, addValidators: true }
             )
-            .then
+            .then(dbThoughtsData => {
+                if (!dbThoughtsData) {
+                  return res.status(404).json({ message: 'No thought located with provided Id!' });
+                }
+                res.json(dbThoughtsData);
+              })
+              .catch(err => {
+                console.log(err);
+                return res.status(500).json(err);
+              });
+          },
+
+          removeReaction({ params }, res) {
+            Thought.findOneAndUpdate(
+              { _id: params.thoughtId },
+              { $pull: { reactions: { _id: params.reactionId } } },
+              { new: true }
+            )
+              .then(dbThoughtsData => {
+                if (!dbThoughtsData) {
+                  return res.status(404).json({ message: 'No thought located with provided Id!' });
+                }
+                res.json(dbThoughtsData);
+              })
+              .catch(err => {
+                console.log(err);
+                return res.status(500).json(err);
+              });
+          }
+        
 
 
+};
 
-
-
-
-
-
-}
+module.exports = thoughtControllers;
