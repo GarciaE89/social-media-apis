@@ -17,7 +17,7 @@ const userController = {
 
     // Single user with subdocument data
     getUserbyId({params}, res){
-        User.fineOne({_id: params._id})
+        User.findOne({_id: params._id})
         .populate({
             path: 'thoughts',
             select: '-__v'
