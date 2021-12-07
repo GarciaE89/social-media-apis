@@ -4,7 +4,7 @@ const {User} = require('../models');
 const userController = {
     // all users
 
-        AllUsers(req, res) {
+        allUsers(req, res) {
         User.find({})
         .select('-__v')
         .sort({_id: -1})
