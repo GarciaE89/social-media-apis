@@ -17,12 +17,15 @@ const userController = {
 
     // Single user with subdocument data
     getUserbyId({params}, res){
-        User.findOne({_id: params._id})
+        User.findOne({_id: params.id})
         .populate({
             path: 'thoughts',
-            select: '-__v'
+            select:'-__v'
         })
         .select('-__v')
+        
+        
+        
         .then(dbUserData => {
             if(!dbUserData){
                 res.status(404).json({message: 'No user located with provided Id!'});
@@ -70,8 +73,8 @@ const userController = {
 
     addFriend({params}, res) {
         User.findOneAndUpdate(
-            {_id: params.friendsId},
-            {$addToSet: {friends: params.friendsId}},
+            {_id: params.userId},
+            {$push: {friends: params.friendsId}},
             {new: true}
 
         )

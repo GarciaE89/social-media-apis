@@ -20,15 +20,16 @@ router
 .post(addThought);
 
 // delete thought from user by id
-router
-.route('/:thoughtId/:userId')
-.delete(deleteThought);
+// router
+// .route('/:thoughtId/:userId')
+
 
 // get single thought 
 router
 .route('/:thoughtId')
 .get(getSingleThought)
-.put(updateThought);
+.put(updateThought)
+.delete(deleteThought);
 
 // reactions route
 router
